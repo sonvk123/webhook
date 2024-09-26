@@ -13,6 +13,10 @@ const config = {
 // Middleware để phân tích dữ liệu JSON
 app.use(bodyParser.json());
 
+app.post('/test', middleware, (req, res) => {
+     res.sendStatus(200);
+});
+
 app.post('/callback', middleware, (req, res) => {
     const signature = req.headers['x-line-signature'];
     const body = req.body;
