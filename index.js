@@ -13,7 +13,7 @@ const config = {
 // Middleware để phân tích dữ liệu JSON
 app.use(bodyParser.json());
 
-app.post('/test', middleware, (req, res) => {
+app.post('/test', (req, res) => {
     res.status(200).json({
         "success": true,
         "timestamp": new Date().toISOString(),
@@ -23,7 +23,7 @@ app.post('/test', middleware, (req, res) => {
     });
 });
 
-app.post('/callback', middleware, (req, res) => {
+app.post('/callback', (req, res) => {
     const signature = req.headers['x-line-signature'];
     const body = req.body;
 
