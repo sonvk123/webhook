@@ -16,6 +16,16 @@ const client = new line.Client(config);
 // Phân tích body JSON
 app.use(bodyParser.json());
 
+// Xử lý yêu cầu GET để xác minh webhook
+app.get('/line-webhook', (req, res) => {
+    // Xác minh webhook bằng cách trả về mã challenge
+    if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === 'YOUR_VERIFY_TOKEN') {
+        res.status(200).send(req.query['hub.challenge']);
+    } else {
+        res.sendStatus(403);
+    }
+});
+
 // Nhận webhook từ LINE
 app.post("/line-webhook", (req, res) => {
   const events = req.body.events;
