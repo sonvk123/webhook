@@ -13,35 +13,24 @@ const config = {
 // Middleware để phân tích dữ liệu JSON
 app.use(bodyParser.json());
 
-app.post('/test', (req, res) => {
-    res.status(200).json({
-        "success": true,
-        "timestamp": new Date().toISOString(),
-        "statusCode": 200,
-        "reason": "OK",
-        "detail": "200"
-    });
-});
+// Định nghĩa endpoint webhook
+app.post('/webhook', (req, res) => {
+    const events = req.body.events;
 
-app.post('/callback', (req, res) => {
-    res.status(200).json({
-        "success": true,
-        "timestamp": new Date().toISOString(),
-        "statusCode": 200,
-        "reason": "OK",
-        "detail": "200"
-    });
-});
+    if (events.length > 0) {
+        events.forEach((event) => {
+            if (event.type === 'message') {
+                // In chi tiết tin nhắn lên màn hình
+                console.log("Received message from user:");
+                console.log("User ID:", event.source.userId);
+                console.log("Message type:", event.message.type);
+                console.log("Message text:", event.message.text);
+            }
+        });
+    }
 
-// Xử lý yêu cầu POST từ LINE
-app.post('/line-webhook', (req, res) => {
-    res.status(200).json({
-        "success": true,
-        "timestamp": new Date().toISOString(),
-        "statusCode": 200,
-        "reason": "OK",
-        "detail": "200"
-    });
+    // Trả về mã trạng thái 200 OK
+    res.sendStatus(200);
 });
 
 // Khởi động server
