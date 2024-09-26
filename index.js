@@ -14,7 +14,13 @@ const config = {
 app.use(bodyParser.json());
 
 app.post('/test', middleware, (req, res) => {
-     res.sendStatus(200);
+    res.status(200).json({
+        "success": true,
+        "timestamp": new Date().toISOString(),
+        "statusCode": 200,
+        "reason": "OK",
+        "detail": "200"
+    });
 });
 
 app.post('/callback', middleware, (req, res) => {
