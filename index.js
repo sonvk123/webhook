@@ -13,6 +13,30 @@ const config = {
 // Middleware để phân tích dữ liệu JSON
 app.use(bodyParser.json());
 
+app.post('/callback', middleware, (req, res) => {
+    const signature = req.headers['x-line-signature'];
+    const body = req.body;
+
+    console.log("Request body:", body);  // Log request body
+
+    // Xử lý webhook body
+    try {
+        // Xử lý các sự kiện từ LINE
+        // Thêm mã xử lý sự kiện tại đây, ví dụ:
+        if (body.events.length > 0) {
+            body.events.forEach((event) => {
+                // Xử lý từng sự kiện tại đây
+            });
+        }
+    } catch (error) {
+        console.error("Invalid signature. Please check your channel access token/channel secret.");
+        return res.status(400).send('Invalid signature');
+    }
+
+    // Trả về 'OK' nếu không có lỗi
+     res.sendStatus(200);
+});
+
 // Xử lý yêu cầu POST từ LINE
 app.post('/line-webhook', (req, res) => {
     const events = req.body.events;
